@@ -87,8 +87,16 @@
             <h5 class="mt-3">Total Bayar: <span id="totalBayarView">Rp 0</span></h5>
             <input type="hidden" name="total_harga" id="totalBayarInput">
 
-            <label class="mt-2">Jumlah Bayar:</label>
-            <input type="number" id="jumlahBayar" name="jumlah_bayar" class="form-control">
+            <label for="jumlahBayar" class="mt-2">Jumlah Bayar:</label>
+            <input
+                type="number"
+                id="jumlahBayar"
+                name="jumlah_bayar"
+                class="form-control"
+                step="0.01"
+                max="99999999999.99"
+                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
+            >
             <p id="notifKurang" class="text-danger d-none">Jumlah bayar kurang dari total!</p>
 
             <label class="mt-2">Deskripsi Pembayaran (optional):</label>

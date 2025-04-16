@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('login'); // file: resources/views/auth/login.blade.php
+        return view('login');
     }
 
     public function login(Request $request)

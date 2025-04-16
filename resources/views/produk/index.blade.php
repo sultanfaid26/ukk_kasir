@@ -88,9 +88,19 @@
                                       <form action="{{ route('produk.updateStock', $produks->id) }}" method="POST">
                                           @csrf
                                           <div class="mb-3">
-                                              <label for="stock" class="form-label">Stock Baru</label>
-                                              <input type="number" class="form-control" id="stock" name="stock" value="{{ $produks->stock }}" required>
-                                          </div>
+                                            <label for="stock" class="form-label">Stock Baru</label><span class="text-danger">*</span>
+                                            <input
+                                                type="number"
+                                                class="form-control"
+                                                id="stock"
+                                                name="stock"
+                                                min="0"
+                                                max="99999"
+                                                value="{{ $produks->stock }}"
+                                                oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);"
+                                                required
+                                            >
+                                        </div>                                        
                                           <button type="submit" class="btn btn-primary">Simpan</button>
                                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                       </form>

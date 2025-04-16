@@ -37,14 +37,25 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="harga" class="form-label">Harga</label>
-                            <input type="number" class="form-control" id="harga" name="harga" value="{{ old('harga', $produk->harga) }}" required>
+                            <label for="harga" class="form-label">Harga</label><span class="text-danger">*</span>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="harga"
+                                name="harga"
+                                value="{{ old('harga', $produk->harga) }}"
+                                step="0.01"
+                                max="99999999.99"
+                                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
+                                required
+                            >
+                            <div id="formatted-harga" class="mt-1 text-muted"></div>
                         </div>
 
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="stock" class="form-label">Stock</label>
                             <input type="number" class="form-control" id="stock" name="stock" value="{{ old('stock', $produk->stock) }}" required>
-                        </div>
+                        </div> --}}
 
                         <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                         <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali</a>

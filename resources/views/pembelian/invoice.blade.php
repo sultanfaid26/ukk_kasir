@@ -21,21 +21,21 @@
             <thead>
                 <tr>
                     <th>Produk</th>
-                    <th>Harga</th>
-                    <th>Quantity</th>
-                    <th>Sub Total</th>
+                    <th class="text-end">Harga</th>
+                    <th class="text-end">Quantity</th>
+                    <th class="text-end">Sub Total</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($pembelian->detailPembelians as $item)
                     <tr>
                         <td>{{ $item->produk->nama_produk }}</td>
-                        <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
-                        <td>{{ $item->qty }}</td>
-                        <td>Rp {{ number_format($item->sub_total, 0, ',', '.') }}</td>
+                        <td class="text-end">Rp {{ number_format($item->harga, 0, ',', '.') }}</td>
+                        <td class="text-end">{{ $item->qty }}</td>
+                        <td class="text-end">Rp {{ number_format($item->sub_total, 0, ',', '.') }}</td>
                     </tr>
                 @endforeach
-            </tbody>
+            </tbody>            
         </table>
 
         <div class="d-flex justify-content-end mt-3">
@@ -43,30 +43,39 @@
                 <tr>
                     <td class="pe-3">TOTAL:</td>
                     <td>
-                        @if ($pembelian->poin_total > 0)
-                            <del>Rp {{ number_format($pembelian->total_harga, 0, ',', '.') }}</del><br>
-                            <strong>Rp {{ number_format($pembelian->total_harga - ($pembelian->poin_total * 100), 0, ',', '.') }}</strong>
+                        @if ($pembelian->total_diskon > 0)
+                            <del>Rp {{ number_format($pembelian->total_harga + $pembelian->total_diskon, 0, ',', '.') }}</del><br>
+                            <strong>Rp {{ number_format($pembelian->total_harga, 0, ',', '.') }}</strong>
                         @else
                             <strong>Rp {{ number_format($pembelian->total_harga, 0, ',', '.') }}</strong>
                         @endif
                     </td>
                 </tr>
-                @if ($pembelian->poin_total > 0)
+        
+                @if ($pembelian->total_diskon > 0)
                 <tr>
                     <td>POIN DIGUNAKAN:</td>
-                    <td>{{ $pembelian->poin_total }}</td>
+                    <td>{{ $pembelian->total_diskon / 100 }} (Rp {{ number_format($pembelian->total_diskon, 0, ',', '.') }})</td>
                 </tr>
                 @endif
+        
+                <tr>
+                    <td>POIN DIDAPAT:</td>
+                    <td>{{ $pembelian->poin_total }}</td>
+                </tr>
+        
                 <tr>
                     <td>KASIR:</td>
                     <td>{{ $pembelian->dibuat_oleh }}</td>
                 </tr>
+        
                 <tr>
                     <td>KEMBALIAN:</td>
-                    <td>Rp {{ number_format($pembelian->kembalian + ($pembelian->poin_total * 100), 0, ',', '.') }}</td>
-                </tr>                
+                    <td>Rp {{ number_format($pembelian->kembalian, 0, ',', '.') }}</td>
+                </tr>
             </table>
         </div>
+        
     </div>
 </div>
 @endsection

@@ -78,34 +78,30 @@ class PembelianController extends Controller
                     $member = Member::create([
                         'nama' => $request->nama_member ?? 'Member Baru',
                         'no_telp' => $request->no_telp,
-                        'poin' => 0, // Poin awal 0
+                        'poin' => 0,
                     ]);
                 }
     
                 $memberId = $member->id;
-
-                if ($request->has('gunakan_poin') && $member->poin > 0) {
-                    $potonganPoin = min($member->poin * 100, $totalHarga);
+                $gunakanPoin = $request->has('gunakan_poin');
+    
+                if ($gunakanPoin && $member->poin > 0) {
+                    $poinYangDipakai = min($member->poin, floor($totalHarga / 100));
+                    $potonganPoin = $poinYangDipakai * 100;
                     $totalHarga -= $potonganPoin;
-                    $jumlahBayar = max($jumlahBayar, $totalHarga);
-    
-                    $member->poin -= intval($potonganPoin / 100);
-                    $member->save();
+                    $member->poin -= $poinYangDipakai;
                 }
-    
-                // Member baru mendapatkan poin
-                if ($member->poin == 0) {
-                    $poinBaru = floor($totalHarga / 10000);
-                    $member->poin += $poinBaru;
-                    $member->save();
-                }
+
+                $poinBaru = floor($totalHarga / 10000);
+                $member->poin += $poinBaru;
+                $member->save();
             }
     
             $pembelian = Pembelian::create([
                 'member_id' => $memberId,
                 'status_pelanggan' => $statusPelanggan,
                 'no_hp_pelanggan' => $request->no_telp,
-                'poin_pelanggan' => $potonganPoin > 0 ? $potonganPoin / 100 : 0,
+                'poin_pelanggan' => $potonganPoin,
                 'deskripsi_produk' => $request->deskripsi_pembayaran,
                 'nama_pelanggan' => $request->nama_member,
                 'total_harga' => $totalHarga,
@@ -123,7 +119,6 @@ class PembelianController extends Controller
                 if ($qty <= 0) continue;
     
                 $produk = Produk::find($id);
-    
                 if (!$produk) {
                     throw new \Exception("Produk tidak ditemukan.");
                 }
@@ -150,7 +145,7 @@ class PembelianController extends Controller
             DB::rollBack();
             return back()->with('error', 'Gagal simpan: ' . $e->getMessage())->with('goto_step2', true);
         }
-    }          
+    }            
 
     public function showInvoice($id)
     {
@@ -158,11 +153,11 @@ class PembelianController extends Controller
         return view('pembelian.invoice', compact('pembelian'));
     }    
 
-    public function edit(string $id)
-    {
-        $pembelian = Pembelian::with('detailPembelians')->findOrFail($id);
-        return view('pembelian.edit', compact('pembelian'));
-    }
+    // public function edit(string $id)
+    // {
+    //     $pembelian = Pembelian::with('detailPembelians')->findOrFail($id);
+    //     return view('pembelian.edit', compact('pembelian'));
+    // }
 
     public function update(Request $request, string $id)
     {
@@ -187,7 +182,7 @@ class PembelianController extends Controller
             'nama' => $pembelian->nama_pelanggan,
             'no_telp' => $pembelian->no_hp_pelanggan,
             'poin' => $pembelian->poin_pelanggan,
-            'join_date' => $pembelian->member->created_at->format('d F Y') ?? 'N/A',
+            'join_date' => ($pembelian->member ? $pembelian->member->created_at->format('d F Y') : '-'),
         ],
         'products' => $pembelian->DetailPembelians->map(function($detail) {
             return [
@@ -203,10 +198,7 @@ class PembelianController extends Controller
             'harga_setelah_poin' => $pembelian->total_harga - $pembelian->total_diskon,
             'total_bayar' => $pembelian->total_bayar,
             'kembalian' => $pembelian->kembalian,
-            'tanggal' => $pembelian->tanggal_penjualan instanceof \Carbon\Carbon
-    ? $pembelian->tanggal_penjualan->format('Y-m-d\TH:i:s.u\Z') 
-    : 'N/A',
-
+            'tanggal' => \Carbon\Carbon::parse($pembelian->tanggal_penjualan)->format('d F Y') ?? 'N/A',
             'petugas' => $pembelian->dibuat_oleh
         ]
     ];
@@ -219,6 +211,22 @@ class PembelianController extends Controller
     public function exportExcel(Request $request)
 {
     return Excel::download(new PembelianExport($request), 'pembelian.xlsx');
+}
+
+public function cekMember(Request $request)
+{
+    $member = Member::where('no_telp', $request->no_telp)->first();
+
+    if ($member) {
+        return response()->json([
+            'exists' => true,
+            'id' => $member->id,
+            'nama' => $member->nama_member,
+            'poin' => $member->poin,
+        ]);
+    }
+
+    return response()->json(['exists' => false]);
 }
 
     

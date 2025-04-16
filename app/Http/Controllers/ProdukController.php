@@ -70,7 +70,6 @@ class ProdukController extends Controller
             'nama_produk' => 'required|string|max:255',
             'gambar_produk' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'harga' => 'required|numeric',
-            'stock' => 'required|numeric',
         ]);
     
         $produk = Produk::findOrFail($id);
@@ -83,7 +82,6 @@ class ProdukController extends Controller
     
         $produk->nama_produk = $request->nama_produk;
         $produk->harga = $request->harga;
-        $produk->stock = $request->stock;
         $produk->save();
     
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');

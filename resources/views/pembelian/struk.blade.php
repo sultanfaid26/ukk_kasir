@@ -11,6 +11,7 @@
         .text-right { text-align: right; }
         .footer { margin-top: 20px; text-align: center; font-size: 10px; }
         .divider { border-top: 1px dashed #000; margin: 10px 0; }
+        .company-info { text-align: center; font-size: 11px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -18,6 +19,11 @@
         <h2>Indo April</h2>
     </div>
     
+    <div class="company-info">
+        <p>Jl. Merdeka No. 123, Cigombong, Bogor</p>
+        <p>Telepon: 0812-3456-7890</p>
+    </div>
+
     <div class="member-info">
         <p><strong>Member Status</strong> : Member</p>
         <p><strong>No. HP</strong> : {{ $member['no_telp'] }}</p>
@@ -38,12 +44,12 @@
             @foreach($products as $product)
             <tr>
                 <td>{{ $product['nama'] }}</td>
-                <td>{{ $product['qty'] }}</td>
-                <td>Rp. {{ number_format($product['harga'], 0) }}</td>
-                <td>Rp. {{ number_format($product['sub_total'], 0) }}</td>
+                <td class="text-right">{{ $product['qty'] }}</td>
+                <td class="text-right">Rp. {{ number_format($product['harga'], 0) }}</td>
+                <td class="text-right">Rp. {{ number_format($product['sub_total'], 0) }}</td>
             </tr>
             @endforeach
-        </tbody>
+        </tbody>        
     </table>
     
     <div class="text-right">

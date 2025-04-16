@@ -57,10 +57,9 @@ class PembelianExport implements FromCollection, WithHeadings, WithMapping
             return "{$item->produk->nama_produk} ( {$item->qty} : Rp. " . number_format($item->sub_total, 0, ',', '.') . " )";
         })->implode(' , ');
     
-        // Pastikan tanggal_penjualan adalah objek Carbon
         $tanggal = $pembelian->tanggal_penjualan instanceof \Carbon\Carbon
             ? $pembelian->tanggal_penjualan
-            : \Carbon\Carbon::parse($pembelian->tanggal_penjualan); // Parse jika perlu
+            : \Carbon\Carbon::parse($pembelian->tanggal_penjualan);
     
         return [
             $pembelian->nama_pelanggan ?? 'Bukan Member',
@@ -72,7 +71,7 @@ class PembelianExport implements FromCollection, WithHeadings, WithMapping
             'Rp. ' . number_format($pembelian->total_diskon, 0, ',', '.'),
             'Rp. ' . number_format($pembelian->poin_total, 0, ',', '.'),
             'Rp. ' . number_format($pembelian->kembalian, 0, ',', '.'),
-            $tanggal->format('d-m-Y'), // Gunakan format setelah memastikan objek Carbon
+            $tanggal->format('d-m-Y'),
         ];
     }
     

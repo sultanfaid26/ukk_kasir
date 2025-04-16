@@ -55,6 +55,7 @@ Route::prefix('pembelian')->name('pembelian.')->group(function () {
     Route::get('/pembelian/{id}/invoice', [PembelianController::class, 'showInvoice'])->name('invoice');
     Route::delete('/{pembelian}', [PembelianController::class, 'destroy'])->name('destroy'); 
     Route::get('/pembelian/{id}/exportpdf', [PembelianController::class, 'exportPdf'])->name('export');
+    Route::get('/cek-member', [PembelianController::class, 'cekMember'])->name('cek.member');
 });
 
 });

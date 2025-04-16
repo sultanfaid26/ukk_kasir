@@ -35,15 +35,32 @@
 
                         <div class="mb-3">
                             <label for="harga" class="form-label">Harga</label><span class="text-danger">*</span>
-                            <input type="number" class="form-control" id="harga" name="harga" required>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="harga"
+                                name="harga"
+                                step="0.01"
+                                max="99999999.99"
+                                oninput="if(this.value.length > 10) this.value = this.value.slice(0, 10);"
+                                required
+                            >
                             <div id="formatted-harga" class="mt-1 text-muted"></div>
                         </div>
-                        
-
+                              
                         <div class="mb-3">
                             <label for="stock" class="form-label">Stock</label><span class="text-danger">*</span>
-                            <input type="number" class="form-control" id="stock" name="stock" required>
-                        </div>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="stock"
+                                name="stock"
+                                min="0"
+                                max="99999"
+                                oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);"
+                                required
+                            >
+                        </div>                        
 
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali</a>
