@@ -20,7 +20,7 @@
     </div>
     
     <div class="company-info">
-        <p>Jl. Merdeka No. 123, Cigombong, Bogor</p>
+        <p> Mutiara Bogor Raya, Bogor Timur</p>
         <p>Telepon: 0812-3456-7890</p>
     </div>
 

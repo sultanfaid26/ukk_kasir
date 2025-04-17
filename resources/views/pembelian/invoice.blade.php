@@ -3,13 +3,23 @@
 
 @section('content')
 <div class="container py-4">
-    <div class="mb-3">
+    <div class="mb-3 d-print-none">
         <a href="{{ route('pembelian.index') }}" class="btn btn-secondary">Kembali</a>
         <button onclick="window.print()" class="btn btn-primary">Unduh</button>
     </div>
+    
 
     <div class="p-4 bg-white shadow rounded">
+        <div class="header">
+            <h2>Indo April</h2>
+        </div>
         <h4>Pembayaran</h4>
+
+        <div class="company-info">
+            <p> Mutiara Bogor Raya, Bogor Timur</p>
+            <p>Telepon: 0812-3456-7890</p>
+        </div>
+
         <p><strong>Invoice - #{{ $pembelian->id }}</strong><br>
         Tanggal: {{ \Carbon\Carbon::parse($pembelian->tanggal_penjualan)->translatedFormat('d F Y') }}</p>
 

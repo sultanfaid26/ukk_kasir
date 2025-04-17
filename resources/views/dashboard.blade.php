@@ -4,15 +4,9 @@
 
 @section('content')
 <div class="container-fluid py-4">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb bg-transparent px-0 pb-2">
-            <li class="breadcrumb-item text-sm"><a class="text-dark" href="#">Dashboard</a></li>
-        </ol>
-    </nav>
-
     <div class="bg-white rounded shadow-sm p-4 mt-3">
+        @if(auth()->check() && auth()->user()->isAdmin())
         <h3 class="mb-4">Selamat Datang, Administrator!</h3>
-
         <div class="row">
             <div class="col-md-8">
                 <canvas id="barChart"></canvas>
@@ -22,6 +16,8 @@
                 <canvas id="pieChart"></canvas>
             </div>
         </div>
+        @endif
+        
     </div>
 </div>
 @endsection

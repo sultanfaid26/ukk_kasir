@@ -16,10 +16,10 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
     
-        if ($user->role == 'isPetugas') {
+        if ($user->role == 'petugas') {
             $totalPenjualanHariIni = Pembelian::whereDate('created_at', Carbon::today())->count();
     
-            return view('dashboardPetugas', compact('totalPenjualanHariIni'));
+            return view('dashboard', compact('totalPenjualanHariIni'));
         }
     
         $dailySales = $this->getDailySalesData();
