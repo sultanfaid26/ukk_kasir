@@ -81,7 +81,7 @@ class PembelianController extends Controller
                         'poin' => 0,
                     ]);
                 }
-    
+                
                 $memberId = $member->id;
                 $gunakanPoin = $request->has('gunakan_poin');
     
@@ -141,10 +141,10 @@ class PembelianController extends Controller
     
             DB::commit();
             return redirect()->route('pembelian.invoice', $pembelian->id);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Gagal simpan: ' . $e->getMessage())->with('goto_step2', true);
-        }
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return back()->with('error', 'Gagal simpan: ' . $e->getMessage())->with('goto_step2', true);
+            }
     }            
 
     public function showInvoice($id)
