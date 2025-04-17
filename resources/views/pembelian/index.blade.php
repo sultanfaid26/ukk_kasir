@@ -6,35 +6,6 @@
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">  
-          <form action="{{ route('pembelian.index') }}" method="GET" class="d-flex gap-2 mb-3">
-            <select name="tanggal" class="form-control">
-              <option value=""> Pilih Tanggal </option>
-              @for ($i = 1; $i <= 31; $i++)
-                  <option value="{{ $i }}" {{ request('tanggal') == $i ? 'selected' : '' }}>
-                      {{ $i }}
-                  </option>
-              @endfor
-            </select>
-            
-            <select name="bulan" class="form-control">
-              <option value=""> Pilih Bulan </option>
-              @for ($i = 1; $i <= 12; $i++)
-                  <option value="{{ $i }}" {{ request('bulan') == $i ? 'selected' : '' }}>
-                      {{ DateTime::createFromFormat('!m', $i)->format('F') }}
-                  </option>
-              @endfor
-            </select>
-          
-            <select name="tahun" class="form-control">
-              <option value=""> Pilih Tahun </option>
-              @foreach ($tahunList as $tahun)
-                  <option value="{{ $tahun }}" {{ request('tahun') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
-              @endforeach
-            </select>
-          
-            <button type="submit" class="btn btn-info">Filter</button>
-            <a href="{{ route('pembelian.index') }}" class="btn btn-secondary">Reset</a>
-          </form>
           <div class="card mb-4">
             <div class="card-header pb-0 d-flex justify-content-between align-items-center">
               <h6>Tabel Penjualan</h6>

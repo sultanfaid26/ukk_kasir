@@ -28,6 +28,7 @@
                         @forelse ($produk as $produks)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
+
                             <td class="text-center">
                                 @if ($produks->gambar_produk)
                                 <img src="data:image/png;base64,{{ $produks->gambar_produk }}" class="avatar avatar-sm me-3" alt="user1">
@@ -35,26 +36,26 @@
                                     <span class="text-muted">Tidak ada gambar</span>
                                 @endif
                             </td>
-                            {{ $produks->nama_produk }}
+                           <td>{{ $produks->nama_produk }}</td>
                             <td>Rp {{ number_format( $produks->harga, 0, ',', '.') }}</td>
                             <td class="text-center">{{ $produks->stock }}</td>
                             <td class="text-center">
                                 <a href="{{ route('produk.edit', $produks->id) }}" class="btn btn-sm btn-warning mb-1">Edit</a>
 
                                 <!-- Tombol Modal Tambah Stok -->
-                                <button type="button" class="btn btn-sm btn-info mb-1" data-bs-toggle="modal" data-bs-target="#tambahStokModal{{ $product->id }}">
+                                <button type="button" class="btn btn-sm btn-info mb-1" data-bs-toggle="modal" data-bs-target="#tambahStokModal{{ $produks->id }}">
                                     Tambah Stok
                                 </button>
 
                                 <!-- Modal Tambah Stok -->
-                                <div class="modal fade" id="tambahStokModal{{ $product->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $product->id }}" aria-hidden="true">
+                                <div class="modal fade" id="tambahStokModal{{ $produks->id }}" tabindex="-1" aria-labelledby="modalLabel{{ $produks->id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-sm">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="modalLabel{{ $product->id }}">Tambah Stok: {{ $product->name }}</h5>
+                                                <h5 class="modal-title" id="modalLabel{{ $produks->id }}">Tambah Stok: {{ $produks->name }}</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="{{ route('produks.updateStock', $produks->id ) }}" method="POST">
+                                            <form action="{{ route('produk.updateStock', $produks->id ) }}" method="POST">
                                                 @csrf
                                                 <div class="modal-body">
                                                     <input type="number" name="quantity" class="form-control" placeholder="Jumlah stok" min="1" required>

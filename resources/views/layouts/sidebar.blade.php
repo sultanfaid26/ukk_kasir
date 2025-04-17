@@ -24,10 +24,13 @@
         <a class="nav-link {{ request()->routeIs('pembelian.*') ? 'active' : '' }}" href="{{ route('pembelian.index') }}">
             <span>Pembelian</span></a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.index') }}">
-            <span>User</span></a>
-    </li>
+
+    @if(auth()->check() && auth()->user()->isAdmin())
+        <li class="nav-item">
+            <a class="nav-link {{ request()->routeIs('user.*') ? 'active' : '' }}" href="{{ route('user.index') }}">
+                <span>User</span></a>
+        </li>
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider">
